@@ -1,0 +1,42 @@
+version: "2"
+services:
+  tradecubic:
+    image: slamdunk51/php
+    volumes: 
+      - ${WWW_ROOT}:/data/wwwroot 
+      - ${WWW_LOGS}:/data/wwwlogs
+      - ./nginx/vhosts:/usr/local/nginx/conf/vhosts:ro
+      - ./nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf:ro
+      - ./nginx/rewrite:/usr/local/nginx/conf/rewrite:ro
+      - ./nginx/ca:/usr/local/nginx/conf/ca:ro
+    links:
+        - mysql:mysql_service
+        - redis:redis_service
+        - mongo:mongo_service
+    ports:
+        - 80:80
+        - 443:443
+        - 21:21
+
+  redis:
+    image: slamdunk51/redis
+    restart: always
+
+  mysql:
+    image: slamdunk51/mysql:laster
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
+      MYSQL_DATABASE: ${MYSQL_DBTABASE} 
+    volumes: 
+
+      - ./mysql/conf/tradecubic.cnf:/etc/mysql/conf.d/tradecubic.cnf:ro
+    ports:
+        - 3306:3306
+
+  mongo:
+    image: slamdunk51/mongodb
+    restart: always
+    ports:
+        - 27017:27017
+
