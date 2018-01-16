@@ -16,6 +16,6 @@
 1. 不必多说，相信大家都会了，如不会，可请教同事。
 
 ##### 启动
-1. 进入docker-compose-tradecubic-phpweb目录
+1. 进入目录
 2. 执行命令docker-compose up -d 
 3. 如果查看日志 docker logs -t 容器id或者名称
